@@ -1,0 +1,114 @@
+{
+  "ver": 1,
+  "meta": {
+    "name": "new_cool_story",
+    "environment": "AnyEnv",
+    "title": [
+      {
+        "text": "My new cool ",
+        "entity_specs": [],
+        "ref": null
+      },
+      {
+        "text": "Story",
+        "entity_specs": [
+          {
+            "name": "italic",
+            "payload": ""
+          },
+          {
+            "name": "color",
+            "payload": "16711680"
+          }
+        ],
+        "ref": null
+      },
+      {
+        "text": "for Narrative v",
+        "entity_specs": [],
+        "ref": null
+      }
+    ],
+    "authors": [
+      "EgorBron"
+    ],
+    "description": [],
+    "dynamic_meta": {
+      "test": "Test",
+      "some": 42
+    }
+  },
+  "resources": {
+    "BaseActors": "@/actors/BaseActors",
+    "test": "narrative/strings/SomeString"
+  },
+  "labels": [
+    {
+      "id": "main",
+      "elements": [
+        {
+          "type": "jump",
+          "label": "greetings",
+          "tags": []
+        }
+      ],
+      "tags": [],
+      "dynamic_meta": null
+    },
+    {
+      "id": "greetings",
+      "elements": [
+        {
+          "type": "text",
+          "actor": {
+            "type": "some_actor",
+            "name": [
+              {
+                "text": "Some",
+                "entity_specs": [],
+                "ref": null
+              }
+            ],
+            "tags": [],
+            "ref": null,
+            "dynamic_meta": null
+          },
+          "phrase": [
+            {
+              "text": "#",
+              "entity_specs": [],
+              "ref": "#test"
+            }
+          ],
+          "tags": [],
+          "dynamic_meta": null
+        },
+        {
+          "type": "signal",
+          "signals": [
+            {
+              "type": "store_fact",
+              "payload": {
+                "value": true
+              }
+            }
+          ],
+          "tags": [],
+          "dynamicMeta": null
+        },
+        {
+          "type": "signal",
+          "signals": [
+            {
+              "type": "stop"
+            }
+          ],
+          "tags": [],
+          "dynamicMeta": null
+        }
+      ],
+      "tags": [],
+      "dynamic_meta": null
+    }
+  ]
+}
