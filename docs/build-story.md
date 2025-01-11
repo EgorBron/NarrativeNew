@@ -32,6 +32,7 @@ Assuming that you have the empty Kotlin application,
 let's jump right to `build.gradle.kts` to add the dependencies.
 
 > [!CAUTION]
+> THE LIBRARIES ARE NOT YET PUBLISHED!
 
 ```kotlin
 /* ...plugins and so on... */
@@ -67,7 +68,7 @@ fun main() {
 
 Here it is -- a simple console app.
 
-> ![NOTE]
+> [!NOTE]
 > If you plan to serialize your story to JSON or
 > any other format supported by `kotlinx-serialization`,
 > you should add `kotlinx-serialization` dependencies to your project.
@@ -224,7 +225,7 @@ val me = CustomActor("me".toStringEntitySingleList())
 val you = CustomActor("you".toStringEntitySingleList())
 ```
 
-> ![NOTE]
+> [!NOTE]
 > If you use kotlinx-serialization, you need to add all the annotations above,
 > as well as register the serializer for the `CustomActor` class:
 > ```kotlin
@@ -293,7 +294,7 @@ If you don't want to implement your own `EntityStringBuilder`,
 you can use an overload extension function that doesn't take a function,
 and gives you access to `BasicStringEntityWrapper`.
 
-> ![NOTE]
+> [!NOTE]
 > The `BasicStringEntityWrapper` is not a part of standard Narrative API.
 > You need to declare a dependency to Narrative Extensions and then apply @OptIn annotation to use it.
 
@@ -341,7 +342,7 @@ we use term "dynamic metadata" and expect `Any?` as a type.
 
 Typically, you use a map of `Any?` to store this data.
 
-> ![NOTE]
+> [!NOTE]
 > In case of `kotlinx-serialization`, the `Any?` class can’t be serialized
 > to a consistent format, like a mentioned map of `Any?`.
 > You need to mark the `dynamicMeta` field with `@Contextual` annotation,
@@ -401,7 +402,7 @@ data class UserInputSignal(
 ) : Signal()
 ```
 
-> ![NOTE]
+> [!NOTE]
 > If you use `kotlinx-serialization`, you need to add all the annotations above,
 > as well as register the serializer for the `UserInputSignal` class:
 > ```kotlin
@@ -456,7 +457,7 @@ data class CrashJump(
 ) : Jump()
 ```
 
-> ![NOTE]
+> [!NOTE]
 > If you use `kotlinx-serialization`, you need to add all the annotations above,
 > as well as register the serializer for the `CrashJump` class:
 > ```kotlin
