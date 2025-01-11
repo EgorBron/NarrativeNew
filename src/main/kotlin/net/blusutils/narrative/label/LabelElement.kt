@@ -7,6 +7,8 @@ import kotlinx.serialization.json.JsonObject
 import net.blusutils.narrative.actor.Actor
 import net.blusutils.narrative.DynamicMetaContainer
 import net.blusutils.narrative.Taggable
+import net.blusutils.narrative.label.jumps.ChangeLabelJump
+import net.blusutils.narrative.label.jumps.Jump
 import net.blusutils.narrative.label.signals.Signal
 import net.blusutils.narrative.stringentity.StringEntity
 
@@ -16,6 +18,7 @@ import net.blusutils.narrative.stringentity.StringEntity
  * Label elements, or, more generally, the story elements
  * are the pieces of the story that are used to build the story flow contents.
  * For instance, it can be a phrase or a jump to another label.
+ * Sealed for the purpose of serialization.
  *
  * @since Narrative "ver": 1
  */
@@ -23,18 +26,22 @@ import net.blusutils.narrative.stringentity.StringEntity
 sealed class LabelElement : Taggable
 
 /**
- * The class for the "jump to the label" element.
- * @param label The label to jump to
+ * The class for the "perform a jump" element.
+ * @param jumps The list of jumps to perform
  * @param tags The tags of the element; they will be passed to the story processor when it reaches the element
+ * @param dynamicMeta The dynamic metadata of the element
  *
  * @since Narrative "ver": 1
  */
 @Serializable
 @SerialName("jump")
 data class LabelJump(
-    val label: String,
+    val jumps: List<Jump>,
     override val tags: List<String> = listOf(),
-) : LabelElement()
+    override val dynamicMeta: @Contextual Any? = null,
+) : LabelElement(), DynamicMetaContainer {
+    constructor(labelId: String, tags: List<String> = listOf()) : this(listOf(ChangeLabelJump(labelId)), tags)
+}
 
 /**
  * The class for the "text phrase" element.

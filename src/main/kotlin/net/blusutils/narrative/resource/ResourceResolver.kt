@@ -7,7 +7,7 @@ package net.blusutils.narrative.resource
  * #/some/path/to/resource.txt -> resolves from another resource
  * leading slash is interpreted as a path relative to the resources root
  */
-class ResourceResolver {
+abstract class ResourceResolver {
     fun resolve(resName: String): String? {
         return null
     }

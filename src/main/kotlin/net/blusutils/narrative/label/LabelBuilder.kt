@@ -30,4 +30,6 @@ class LabelBuilder(val labelsList: MutableList<Label>) : StoryScope {
         LabelBuilderScope(label).block()
         labelsList.add(label)
     }
+
+    // TODO: maybe create jumpLabel that performs an action and then jumps to another label?
 }

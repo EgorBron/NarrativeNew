@@ -12,6 +12,7 @@ import kotlinx.serialization.json.JsonObject
  * story flow. It is different from a regular element with
  * tags and dynamic metadata as it is standalone elements
  * that guarantees event delivery with an extendable and type-safe model.
+ * Signals <b>**must never**</b> mutate the state of the story environment.
  *
  * @since Narrative "ver": 1
  */

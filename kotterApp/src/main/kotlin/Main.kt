@@ -24,11 +24,14 @@ import com.varabyte.kotter.runtime.concurrent.createKey
 import com.varabyte.kotter.runtime.render.RenderScope
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import net.blusutils.Log.err
 import net.blusutils.narrative.actor.Actor
 import net.blusutils.narrative.label.Label
 import net.blusutils.narrative.label.LabelJump
 import net.blusutils.narrative.label.LabelSignal
 import net.blusutils.narrative.label.LabelText
+import net.blusutils.narrative.label.jumps.ChangeLabelJump
+import net.blusutils.narrative.label.jumps.ChangeLabelJump.Companion.jumpTo
 import net.blusutils.narrative.label.signals.Signal
 import net.blusutils.narrative.story.Story
 import net.blusutils.narrative.story.buildStory
@@ -68,29 +71,35 @@ object Log {
         }
     }
 
+    fun Session.log(msg: String, severity: LogSeverity) = section { log(msg, severity) }
+
     /**
      * Logs a debug message to the Kotter's [RenderScope] (white color)
      * @see [Log.log]
      */
-    fun RenderScope.d(msg: String) = log(msg, LogSeverity.Debug)
+    fun RenderScope.dbg(msg: String) = log(msg, LogSeverity.Debug)
+    fun Session.dbg(msg: String) = section { dbg(msg) }
 
     /**
      * Logs an info message to the Kotter's [RenderScope] (cyan color)
      * @see [Log.log]
      */
-    fun RenderScope.i(msg: String) = log(msg, LogSeverity.Info)
+    fun RenderScope.info(msg: String) = log(msg, LogSeverity.Info)
+    fun Session.info(msg: String) = section { info(msg) }
 
     /**
      * Logs a warning message to the Kotter's [RenderScope] (yellow color)
      * @see [Log.log]
      */
-    fun RenderScope.w(msg: String) = log(msg, LogSeverity.Warn)
+    fun RenderScope.warn(msg: String) = log(msg, LogSeverity.Warn)
+    fun Session.warn(msg: String) = section { warn(msg) }
 
     /**
      * Logs an error message to the Kotter's [RenderScope] (red color)
      * @see [Log.log]
      */
-    fun RenderScope.e(msg: String) = log(msg, LogSeverity.Error)
+    fun RenderScope.err(msg: String) = log(msg, LogSeverity.Error)
+    fun Session.err(msg: String) = section { err(msg) }
 }
 
 /**
@@ -268,12 +277,12 @@ val story = buildStory {
                 +ref("#colors")
             })
             text(actorMe, "Okay then.")
-            jump("another")
+            jumpTo("another")
         }
 
         label("another") {
             text("This is another label.")
-            jump("aaa")
+            jumpTo("aaa")
         }
     }
 }
@@ -370,17 +379,28 @@ fun Session.doJump(story: Story, label: Label) {
             }
             // this element is a jump to another label
             is LabelJump -> {
-                val newLabel = story.labels.find { it.id == elem.label }
-                println("jumping to  $newLabel") // #[DEBUG]
-                section {
-                    if (newLabel != null) {
-                        text("Jump to ${elem.label}")
-                    } else {
-                        red { text("No such label: ${elem.label}") }
+                if (elem.jumps.isNotEmpty()) {
+                    for (jump in elem.jumps) {
+                        when (jump) {
+                            is ChangeLabelJump -> {
+                                val newLabel = story.labels.find { it.id == jump.targetLabel }
+                                println("jumping to $newLabel") // #[DEBUG]
+                                section {
+                                    if (newLabel != null) {
+                                        text("Jump to ${jump.targetLabel}")
+                                    } else {
+                                        err("No such label: ${jump.targetLabel}")
+                                    }
+                                }.run()
+                                newLabel?.let {
+                                    doJump(story, it)
+                                }
+                            }
+                            else -> {
+                                err("unknown jump type: ${jump::class.simpleName}").run()
+                            }
+                        }
                     }
-                }.run()
-                newLabel?.let {
-                    doJump(story, it)
                 }
             }
         }
@@ -394,7 +414,7 @@ fun main() = session {
     val main = story.labels.find { it.id == "main" }
 
     if (main == null) {
-        section { red { textLine("no main label") } }.run()
+        err("no main label").run()
         return@session
     }
 

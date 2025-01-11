@@ -13,6 +13,7 @@ import net.blusutils.narrative.label.signals.Signal
  *
  * This signal is not part of the base Narrative API.
  */
+@Deprecated("Use the JumpStop instead.")
 @NonStandardNarrativeApi
 @Serializable
 @SerialName("stop")

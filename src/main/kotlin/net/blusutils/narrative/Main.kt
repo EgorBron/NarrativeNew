@@ -18,6 +18,8 @@ import kotlinx.serialization.modules.subclass
 import kotlinx.serialization.serializer
 import net.blusutils.narrative.actor.Actor
 import net.blusutils.narrative.actor.actorSerializers
+import net.blusutils.narrative.label.jumps.ChangeLabelJump.Companion.jumpTo
+import net.blusutils.narrative.label.jumps.defaultjumps.changeLabelJumpSerializer
 import net.blusutils.narrative.label.signals.defaultsignals.StopSignal.stopSignal
 import net.blusutils.narrative.label.signals.defaultsignals.StoreFactSignal.Companion.storeFact
 import net.blusutils.narrative.label.signals.defaultsignals.sampleSignalsSerializers
@@ -73,16 +75,20 @@ internal val j = Json {
     prettyPrint = true
     encodeDefaults = true
     serializersModule =
-        SerializersModule {} + actorSerializers {
+        SerializersModule {
+
+        } +
+        actorSerializers {
             subclass(SomeActor::class)
             subclass(OtherActor::class)
-        } + sampleSignalsSerializers() + JsonAnySerializer.serializersModule
+        } +
+        sampleSignalsSerializers() +
+        changeLabelJumpSerializer() +
+        JsonAnySerializer.serializersModule
 }
 
 @OptIn(NonStandardNarrativeApi::class)
 internal val theStory = buildStory {
-    version = 1
-
     meta {
         name = "new_cool_story"
         environment = StoryEnvironments.AnyEnv
@@ -111,7 +117,7 @@ internal val theStory = buildStory {
 
     labels {
         main { // an alias to label("main")
-            jump("greetings")
+            jumpTo("greetings")
         }
         label("greetings") {
             text(
@@ -175,7 +181,12 @@ internal const val src = """
       "elements": [
         {
           "type": "jump",
-          "label": "greetings",
+          "jumps": [{
+            "type": "jump_to_label",
+            "targetLabel": "greetings",
+            "payload": null,
+            "tags": []
+          }],
           "tags": ["first_jump"]
         }
       ]

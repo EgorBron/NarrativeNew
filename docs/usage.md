@@ -26,3 +26,4 @@ Steps:
     // ...
     ```
 5. Build the story using `buildStory` function. See [Building stories](build-story.md) for more details.
+6. Write the story renderer. See [Story renderer](story-renderer.md) for more details.

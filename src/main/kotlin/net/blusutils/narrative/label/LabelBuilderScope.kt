@@ -3,6 +3,7 @@ package net.blusutils.narrative.label
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.json.JsonObject
 import net.blusutils.narrative.actor.Actor
+import net.blusutils.narrative.label.jumps.Jump
 import net.blusutils.narrative.label.signals.Signal
 import net.blusutils.narrative.stringentity.*
 
@@ -12,13 +13,27 @@ import net.blusutils.narrative.stringentity.*
  */
 class LabelBuilderScope(val label: Label) {
 
+//    /**
+//     * Adds a jump to another label.
+//     * @param labelId the id of the label to jump to
+//     * @param tags the tags passed to the processor when it reaches this element
+//     */
+//    fun jump(labelId: String, tags: List<String> = listOf()) {
+//        label.elements.add(LabelJump(labelId, tags))
+//    }
+
     /**
-     * Adds a jump to another label.
-     * @param labelId the id of the label to jump to
+     * Adds a jump action to the label.
+     * @param jumps the jumps to add
      * @param tags the tags passed to the processor when it reaches this element
+     * @param dynamicMeta the dynamic metadata of the label
      */
-    fun jump(labelId: String, tags: List<String> = listOf()) {
-        label.elements.add(LabelJump(labelId, tags))
+    fun jump(
+        vararg jumps: Jump,
+        tags: List<String> = listOf(),
+        dynamicMeta: @Contextual Any? = null
+    ) {
+        label.elements.add(LabelJump(jumps.toList(), tags, dynamicMeta))
     }
 
     /**
