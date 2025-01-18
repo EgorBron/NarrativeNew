@@ -14,7 +14,6 @@ The "docs":
 * [Rendering stories](docs/story-renderer.md)
 * [Custom serializers](docs/custom-serializers.md) for dynamic metadata
 * [Samples](docs/samples.md) of usage
-* [Java support](docs/java-support.md) talk
 
 Licensed under [**Apache License 2.0**](LICENSE.txt).
 

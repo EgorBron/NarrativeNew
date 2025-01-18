@@ -1,0 +1,17 @@
+[versions]
+kotlin = "2.0.21"
+serialization = "1.7.3"
+kotter = "1.1.2"
+narrative = "0.1.0"
+
+[libraries]
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+kotter-jvm = { module = "com.varabyte.kotter:kotter-jvm", version.ref = "kotter" }
+kotter-jvm-test = { module = "com.varabyte.kotter:kotter-test-support-jvm", version.ref = "kotter" }
+kotter-test-support-jvm = { module = "com.varabyte.kotterx:kotter-test-support-jvm", version.ref = "kotter" }
+narrative = { module = "net.blusutils.narrative:narrative-foundation", version.ref = "narrative" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

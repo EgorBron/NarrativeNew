@@ -1,5 +1,10 @@
 # Can I use `Narrative` in Java?
 
+Currently, there is no Java support for `Narrative` format.
+
+The library for Java is not planned.
+
+<!--
 The answer is **yes**. But!
 
 Just have a look to the sample code that configures a basic story and then dumps it to string:
@@ -111,3 +116,5 @@ from Java are to serialize or deserialize only Kotlin `@Serializable` classes.
 
 > or write a custom serializer for your Java class... why? really, why?
 > `kotlinx-serialization` is supposed to work only in a Kotlin world, not Java.
+
+-->
