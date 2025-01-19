@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -7,6 +8,7 @@ plugins {
     alias(libs.plugins.android)
     `maven-publish`
     signing
+    alias(libs.plugins.dokka)
 }
 
 val rootgroup: String by project
@@ -57,12 +59,12 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(libs.kotlinx.serialization)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
             }
@@ -115,6 +117,26 @@ publishing {
                     developerConnection = "scm:git:https://github.com/EgorBron/Narrative.git"
                     url = "https://github.com/EgorBron/Narrative"
                 }
+            }
+        }
+    }
+}
+
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets {
+        named("commonMain") {
+            moduleName.set("Narrative Foundation")
+            moduleVersion.set(libversion)
+            noAndroidSdkLink.set(true)
+
+            includes.from("module-root-doc.md")
+
+            sourceLink {
+                localDirectory.set(file("src/commonMain/kotlin"))
+                remoteUrl.set(uri("https://github.com/EgorBron/NarrativeNew/tree/master/" +
+                        "narrative-foundation/src/commonMain/kotlin"
+                ).toURL())
+                remoteLineSuffix.set("#L")
             }
         }
     }

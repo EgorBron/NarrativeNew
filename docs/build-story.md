@@ -1,16 +1,17 @@
 # Building the story
 
 In this guide, we will learn how to write a story
-with `Narrative Kotlin API`, and how to display it.
+with `Narrative Kotlin`, and how to display it.
 
 ## Where should we start?
 
-The **Narrative** itself does nothing -- it is a sort of schema
+You may already know that **Narrative** as the format
+does nothing -- it is a sort of schema
 you should follow to write your own things.
 
-Despite that, here is a reference library implementing
-the **Narrative** format in Kotlin, and with the help of it,
-we can learn the Narrative format.
+Despite that, now we are using a "reference library" implementing
+the **Narrative** in Kotlin, and with the help of it,
+we can learn the Narrative format itself.
 
 First of all, we need a place to tell our story
 to the person who will read it.
@@ -43,16 +44,16 @@ repositories {
 
 dependencies {
     val narrativeVersion = "replace with the latest version"
-    implementation("net.blusutils.narrative:narrative-kotlin:$narrativeVersion")
-    implementation("net.blusutils.narrative:narrative-kotlin-extensions:$narrativeVersion")
+    implementation("net.blusutils.narrative:narrative-foundation:$narrativeVersion")
+    implementation("net.blusutils.narrative:narrative-extensions:$narrativeVersion")
 }
 
 /* ...rest of the file... */
 ```
 
 We just added two dependencies:
-* `narrative-kotlin` -- the main library providing data classes and DSL builders for the Narrative format
-* `narrative-kotlin-extensions` -- a library providing non-standard extensions, like rich text formatting and signals (more on that later)
+* `narrative-foundation` -- the main library providing data classes and DSL builders for the Narrative format
+* `narrative-extensions` -- a library providing non-standard extensions, like rich text formatting and signals (more on that later)
 
 > Don't forget to sync the project in IDE!
 
@@ -91,7 +92,6 @@ Here it is -- a simple console app.
 
 But let's add a base of our story builder:
 ```kotlin
-/* fun main() */
 val story = buildStory {
     meta {
         name = "mystory"
@@ -100,6 +100,8 @@ val story = buildStory {
     resources {  }
     labels {  }
 }
+
+/* fun main() { ... } */
 ```
 
 As you can see, we created a `story` variable,
@@ -180,14 +182,16 @@ Time to write your "Hello, world!" in Narrative.
 ```kotlin
 labels {
     main { // an alias to label("main")
-        text(null, "Hello, world!")
+        text("Hello, world!")
+        text(null, "A world...")
     }
 }
 ```
 
 As you can see, plain text phrases are added using the `text` function.
 
-OK, the second argument is the text itself.
+Take a look at the second call of this function.
+We see that it takes two arguments, the last of which is the text itself.
 But what is the first argument?
 Why is it `null`?
 
@@ -196,9 +200,9 @@ When you put a `null` value here,
 it means that the text is displayed
 by the "narrator", e.g., with no actor.
 
-"But **I** want to say this phrase!"
+"But ***I*** want to say this phrase!"
 
-To do so you need to create an actor class.
+To do so, you need to create an actor class.
 **Narrative** itself does not provide any actors -- it is your,
 and only your work, as the environment creator, to define them.
 
@@ -541,7 +545,8 @@ val story = buildStory {
     resources {  }
     labels { 
         main {
-            text(null, "Hello, world!")
+            text("Hello, world!")
+            text(null, "A world...")
             
             text(me, "Hello, world!")
             text(you, "Hi there!")
@@ -565,5 +570,9 @@ val story = buildStory {
             )
         }
     }
+}
+
+fun main() {
+    println("Hello, world!")
 }
 ```
