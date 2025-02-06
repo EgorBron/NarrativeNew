@@ -1,0 +1,23 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: "Merriweather", serif;
+}
+
+#main {
+    padding-inline: 30vw;
+    padding-block: 30vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.fade-in-text {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
