@@ -22,4 +22,3 @@ rootProject.name = "narrative"
 //include("narrative")
 include(":narrative-foundation")
 include(":narrative-extensions")
-
