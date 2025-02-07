@@ -1,4 +1,4 @@
-package net.blusutils
+package net.blusutils.narrative.samples.jvm.kotter
 
 import com.varabyte.kotter.foundation.input.*
 import net.blusutils.narrative.*
@@ -24,7 +24,6 @@ import com.varabyte.kotter.runtime.concurrent.createKey
 import com.varabyte.kotter.runtime.render.RenderScope
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import net.blusutils.Log.err
 import net.blusutils.narrative.foundation.NonStandardNarrativeApi
 import net.blusutils.narrative.foundation.actor.Actor
 import net.blusutils.narrative.foundation.label.Label
@@ -39,8 +38,8 @@ import net.blusutils.narrative.foundation.story.buildStory
 import net.blusutils.narrative.foundation.stringentity.BasicStringEntityWrapper.Companion.ref
 import net.blusutils.narrative.foundation.stringentity.StringEntity
 import net.blusutils.narrative.foundation.stringentity.buildEntityString
+import net.blusutils.narrative.samples.jvm.kotter.Log.err
 import kotlin.collections.get
-import kotlin.text.get
 
 /**
  * Simple logging utility
@@ -207,28 +206,17 @@ fun RunScope.onChoiceChanged(valueOnCancel: String? = "", block: ChoiceScope.() 
     }
 }
 
-/**
- * An actor with a name and a color
- */
-@Serializable
-data class ColoredActor(
-    override val name: List<StringEntity>,
-    @Contextual override val dynamicMeta: Any? = null,
-    override val ref: String? = null,
-    override val tags: List<String> = emptyList(),
-) : Actor
-
 // the first actor is "me"
 @OptIn(NonStandardNarrativeApi::class)
-val actorMe = ColoredActor(buildEntityString {
+val actorMe = Actor(buildEntityString {
     + put("Me").color(Color.YELLOW.ordinal.toLong())
-})
+}, null)
 
 // and the second one is... "you"?
 @OptIn(NonStandardNarrativeApi::class)
-val actorYou = ColoredActor(buildEntityString {
+val actorYou = Actor(buildEntityString {
     +put("#").color(Color.CYAN.ordinal.toLong()).ref("#name")
-})
+}, null)
 
 /**
  * A custom signal containing a list of options to select from

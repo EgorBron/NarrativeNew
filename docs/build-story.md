@@ -202,11 +202,14 @@ by the "narrator", e.g., with no actor.
 
 "But ***I*** want to say this phrase!"
 
-To do so, you need to create an actor class.
-**Narrative** itself does not provide any actors -- it is your,
-and only your work, as the environment creator, to define them.
+To do so, you need to instantiate an actor and use it.
 
-Hopefully, there is not much to do here.
+```kotlin
+val me = Actor("me", ref = null)
+```
+
+But we also can derive a new class from `Actor` to get
+more control over the actor model.
 
 ```kotlin
 // if you don't use kotlinx-serialization,
@@ -246,14 +249,14 @@ text(you, "Hi there!")
 
 Good! We learned how to display text.
 
-As you can see, each actor is just a data class.
-It implicitly implements some interfaces, and these "base"
+As you can see, each actor is just a class instance.
+This class implicitly implements some interfaces, and these "base"
 interfaces used throughout the Narrative format.
 That is: string entities, tags, dynamic metadata, and references.
 
 ### String entities
 
-When it comes to display a text, you, as story writer, may want to
+When it comes to displaying a text, you, as a story writer, may want to
 apply some formatting to it.
 Like coloring, bold, italic, etc.
 To support this, **Narrative** introduces the concept of string entities.
@@ -430,10 +433,10 @@ signal(
     )
 )
 
-text(null, buildEntityString { 
+text { 
     + "So, hello, "
     + ref("username")
-})
+}
 /* ... */
 ```
 
@@ -557,10 +560,10 @@ val story = buildStory {
                     "<anonymous>"
                 )
             )
-            text(null, buildEntityString {
+            text {
                 + "So, hello, "
                 + ref("username")
-            })
+            }
             
             
             jump(

@@ -29,10 +29,6 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.narrative)
                 implementation(libs.narrative.js)
-//                implementation(kotlin("stdlib-js"))
-//                implementation(libs.kotlinx.serialization)
-//                implementation(libs.narrative)
-//                implementation(libs.kotlinx.browser)
                 implementation(libs.jetbrains.kotlinx.html.js)
             }
         }

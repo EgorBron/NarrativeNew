@@ -10,7 +10,7 @@ data class JsActor(
     override val ref: String? = "",
     override val tags: List<String> = listOf(),
     override val dynamicMeta: Any? = null
-) : Actor
+) : Actor(name, ref, tags, dynamicMeta)
 
 val me = JsActor(
     buildEntityString {

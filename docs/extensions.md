@@ -20,10 +20,6 @@ List of ~~available~~ planned extensions:
     * `StopJump` (stops the story)
     * `ConditionalJump` (jumps to another label if a condition on the environment side is met)
     * `RestartJump` (restarts the story from the `main` label)
-  * `narrative-extensions-actors` -- predefined actor classes
-    * `EmptyActor` (just a straightforward actor implementation, nothing special)
-    * `ColoredActor` (actor with `StringEntity` list as a name)
-    * `RefActor` (actor with a name dependent on the environment reference)
   * `narrative-extensions-stringentities` -- additional string entity types
     * `IMAGE` (images)
     * `THUMBNAIL` (thumbnails, smaller inline images)
